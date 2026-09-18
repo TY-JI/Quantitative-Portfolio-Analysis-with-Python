@@ -1,6 +1,6 @@
 import numpy as np
 
-# TODO consider implementing a constrained optimizer
+# TODO consider implementing a long only fully invested constrained optimizer
 
 class Optimizer:
     def __init__(self, expected_returns, covariance, risk_aversion):

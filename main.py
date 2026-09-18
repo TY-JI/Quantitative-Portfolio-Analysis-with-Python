@@ -1,32 +1,31 @@
+import time
+
 from data import MarketDataLoader
-from validation import DataValidator
-from returns import Returns
-from covariance import Covariance
 from black_litterman import BlackLitterman
 from equilibrium_returns import EquilibriumReturns
 from optimizer import Optimizer
+
+from returns import pct_returns
+from covariance import ledoit_wolf
 from views import construct_views
 from parser import parse_args
 
 def main():
     args = parse_args()
+
+    if args.benchmark:
+        start_time = time.perf_counter()
+        
     # Load market data and extract close prices
     loader = MarketDataLoader(args)
     data = loader.download()
     close_prices = loader.get_close_prices(data)
 
-    # Validating close prices
-    validator = DataValidator()
-    validator.validate(close_prices)
-
     # Computing % returns and remove missing data
-    r = Returns()
-    returns = r.pct_returns(close_prices)
-    returns = r.remove_missing_returns(returns)
+    returns = pct_returns(close_prices)
 
     # Constructing Ledoit-Wolf covariance matrix
-    covariance = Covariance()
-    ledoit_wolf_matrix = covariance.ledoit_wolf(returns)
+    ledoit_wolf_matrix = ledoit_wolf(returns)
 
     # Computing market weights
     eq = EquilibriumReturns()
@@ -49,6 +48,9 @@ def main():
     risk_aversion = eq.risk_aversion(market_weights, ledoit_wolf_matrix)
     opt = Optimizer(expected_returns,ledoit_wolf_matrix,risk_aversion)
     optimized_weights = opt.optimize()
+
+    if args.benchmark:
+        print(f'\nTotal runtime: {time.perf_counter() - start_time:.4f} seconds.\n')
 
     print(f'Market weights: {market_weights}')
     print(f'Expected returns: {expected_returns}')

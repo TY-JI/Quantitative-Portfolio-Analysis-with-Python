@@ -53,6 +53,14 @@ def parse_args():
         help='Add a view: relative ASSET1 ASSET2 VALUE or absolute ASSET VALUE.'
     )
 
+    parser.add_argument(
+        '--benchmark',
+        action='store_true',
+        help='Measures program runtime.'
+    )
+
+    # TODO consider adding CLI arguments risk free rate and market returns for calculating risk aversion 
+
     args = parser.parse_args()
     args.tickers = [ticker.upper() for ticker in args.tickers]
     validate_args(args)

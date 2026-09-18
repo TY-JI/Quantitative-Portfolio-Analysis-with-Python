@@ -4,37 +4,50 @@ import numpy as np
 
 class View:
     def __init__(self, view_type, asset_1, value, asset_2=None):
+        if view_type not in ('absolute','relative'):
+            raise ValueError(
+                f'Unknown view type : {view_type}'
+            )
+
         self.view_type = view_type
         self.asset_1 = asset_1
         self.asset_2 = asset_2
         self.value = value
 
     def p_row(self, tickers):
+        if self.asset_1 not in tickers:
+            raise ValueError(
+                f'Asset {self.asset_1} not in tickers.'
+            )
+
+        if  self.asset_2 is not None and self.asset_2 not in tickers:
+            raise ValueError(
+                f'Asset {self.asset_2} not in tickers.'
+            )
+
+        if self.view_type == 'relative' and self.asset_1 == self.asset_2:
+            raise ValueError(
+                f'Relative views must contain two different assets.'
+            )
+
         row = np.zeros(len(tickers))
 
         if self.view_type == 'relative':
             row[tickers.index(self.asset_1)] = 1
             row[tickers.index(self.asset_2)] = -1
 
-        elif self.view_type == 'absolute':
-            row[tickers.index(self.asset_1)] = 1
-
         else:
-            raise ValueError('Unknown view type.')
+            row[tickers.index(self.asset_1)] = 1
 
         return row
 
-    def q_value(self):
-        return self.value
-
 class ViewSet:
-
     def __init__(self, views):
         self.views = views
 
     def matrices(self, tickers):
-        P = np.vstack([view.p_row(tickers)for view in self.views])
-        q = np.array([view.q_value()for view in self.views])
+        P = np.vstack([view.p_row(tickers) for view in self.views])
+        q = np.array([view.value for view in self.views])
 
         return P, q
 
