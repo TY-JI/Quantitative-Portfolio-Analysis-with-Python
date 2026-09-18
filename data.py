@@ -1,17 +1,13 @@
 import yfinance as yf
 import numpy as np
 
-# TODO
-# add proper error handling for detected correctly formatted date inputs
-# add option to select desired time frame
-
 class MarketDataLoader:
 
     def __init__(self, args):
         self.args = args
 
     def download(self):
-        data = yf.download(
+        return yf.download(
             tickers=self.args.tickers,
             start=self.args.start,
             end=self.args.end,
@@ -21,8 +17,10 @@ class MarketDataLoader:
             progress=True,
         )
 
-        return data
-
+# TODO -Calculate market capitalizations using a broader market universe 
+#       rather than only the securities selected for the portfolio.
+#      -allow retrival of historical market caps
+ 
     def market_caps(self):
         market_caps = []
 

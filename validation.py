@@ -1,6 +1,9 @@
 class DataValidator:
 
     def validate(self,data):
+        if data.empty:
+            raise ValueError('No market data was returned.')
+
         self.check_duplicate_indexes(data)
         self.check_duplicate_tickers(data)
         self.check_missing_values(data)
@@ -13,7 +16,7 @@ class DataValidator:
 
         if missing.any():
             raise ValueError(
-                f'Missing Values Detected:\n{missing[missing > 0]}'
+                f'Missing values detected:\n{missing[missing > 0]}.'
             )
 
     def check_duplicate_indexes(self, data):
@@ -21,7 +24,7 @@ class DataValidator:
             duplicates = data.index[data.index.duplicated()]
             # Returns list of dates (indexes) at positions where data.index.duplicated() is True
             raise ValueError(
-                f'Duplicate Index Values detected:\n{duplicates}'
+                f'Duplicate index values detected:\n{duplicates}.'
             )
 
     def check_non_positive_prices(self, data):
@@ -30,7 +33,7 @@ class DataValidator:
             # Keeps all values that satisfy the (data <= 0) condition in the data dataframe
             # collapses columns vertically with .stack()
             raise ValueError(
-                f'Detection of Invalid Prices:\n{invalid_prices}'
+                f'Detection of invalid prices:\n{invalid_prices}.'
             )
 
     def check_duplicate_tickers(self, data):
@@ -39,5 +42,5 @@ class DataValidator:
 
         if len(duplicates) > 0:
             raise ValueError(
-                f'Duplicate Tickers Detected:\n{duplicates}'
+                f'Duplicate tickers detected:\n{duplicates}.'
             )
