@@ -10,7 +10,16 @@ class BlackLitterman:
         self.tau = tau
         self.P = None if P is None else np.asarray(P, dtype=float)
         self.q = None if q is None else np.asarray(q, dtype=float)
-        self.omega = None if omega is None else np.asarray(omega, dtype=float)
+
+        if omega is None and self.P is not None:
+            self.omega = (
+                self.tau
+                * self.P
+                @ self.covariance
+                @ self.P.T
+            )
+        else:
+            self.omega = None if omega is None else np.asarray(omega, dtype=float)
         # Default values set to none in case no views are given
 
     # Using Woodbury Matrix Identity
@@ -38,6 +47,17 @@ class BlackLitterman:
         expected_returns = self.pi + mean_adjustment
 
         return expected_returns
+
+    def compute_omega(self):
+        if self.P is None:
+            return None
+
+        return(
+            self.tau
+            * self.P
+            @ self.covariance
+            @ self.P.T
+        )
 
     def validate_views(self):
         P = self.P

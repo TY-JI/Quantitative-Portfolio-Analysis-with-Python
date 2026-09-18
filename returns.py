@@ -4,7 +4,7 @@ class Returns:
     # perhaps include some checks to confirm dropna 
     # isn't killing missing data other than the first row
 
-    def calculate_returns(self, prices):
+    def pct_returns(self, prices):
         return prices.pct_change()
         # Calculates the percentage change between consecutive rows within each column
 
