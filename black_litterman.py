@@ -70,9 +70,7 @@ class BlackLitterman:
                 "P must be a two-dimensional matrix."
             )
 
-        n_assets = len(self.pi)
-
-        if P.shape[1] != n_assets:
+        if P.shape[1] != len(self.pi):
             raise ValueError(
                 "P must have one column for each asset."
             )
@@ -165,11 +163,4 @@ class BlackLitterman:
         if not np.isfinite(tau) or tau <= 0:
             raise ValueError(
                 "Tau must be a positive finite value."
-            )
-
-        try:
-            np.linalg.cholesky(covariance)
-        except np.linalg.LinAlgError:
-            raise ValueError(
-                "Covariance matrix must be positive definite."
             )

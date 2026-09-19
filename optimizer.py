@@ -13,4 +13,3 @@ class Optimizer:
             self.risk_aversion * self.covariance,
             self.expected_returns
         )
-    

@@ -2,9 +2,9 @@ import time
 
 from data import MarketDataLoader
 from black_litterman import BlackLitterman
-from equilibrium_returns import EquilibriumReturns
 from optimizer import Optimizer
 
+import equilibrium_returns as eq
 from returns import pct_returns
 from covariance import ledoit_wolf
 from views import construct_views
@@ -28,7 +28,6 @@ def main():
     ledoit_wolf_matrix = ledoit_wolf(returns)
 
     # Computing market weights
-    eq = EquilibriumReturns()
     market_caps = loader.market_caps()
     market_weights = eq.market_weights(market_caps)
 
