@@ -46,7 +46,7 @@ def main():
     # Computing optimized portfolio weights
     risk_aversion = eq.risk_aversion(market_weights, ledoit_wolf_matrix)
     opt = Optimizer(expected_returns,ledoit_wolf_matrix,risk_aversion)
-    optimized_weights = opt.optimize()
+    optimized_weights = opt.optimize_pga()
 
     if args.benchmark:
         print(f'\nTotal runtime: {time.perf_counter() - start_time:.4f} seconds.\n')
