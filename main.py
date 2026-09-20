@@ -3,8 +3,8 @@ import time
 from data import MarketDataLoader
 from black_litterman import BlackLitterman
 from optimizer import Optimizer
+import market as m
 
-import equilibrium_returns as eq
 from returns import pct_returns
 from covariance import ledoit_wolf
 from views import construct_views
@@ -29,7 +29,7 @@ def main():
 
     # Computing market weights
     market_caps = loader.market_caps()
-    market_weights = eq.market_weights(market_caps)
+    market_weights = m.market_weights(market_caps)
 
     # Constructing view matrix
     P, q = construct_views(args.view, args.tickers)
@@ -37,14 +37,14 @@ def main():
     # Computing expected returns using black litterman framework 
     bl = BlackLitterman(
         covariance=ledoit_wolf_matrix,
-        pi=eq.pi(market_caps, ledoit_wolf_matrix),
-        P=P,
-        q=q
+        pi = m.pi(market_caps, ledoit_wolf_matrix),
+        P = P,
+        q = q
     )
     expected_returns = bl.expected_returns()
 
     # Computing optimized portfolio weights
-    risk_aversion = eq.risk_aversion(market_weights, ledoit_wolf_matrix)
+    risk_aversion = m.risk_aversion(market_weights, ledoit_wolf_matrix)
     opt = Optimizer(expected_returns,ledoit_wolf_matrix,risk_aversion)
     optimized_weights = opt.optimize_pga()
 
