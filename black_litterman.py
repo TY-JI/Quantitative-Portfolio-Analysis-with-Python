@@ -1,7 +1,5 @@
 import numpy as np
 
-# TODO look into tau
-
 class BlackLitterman:
 
     def __init__(self, covariance, pi, tau=0.025, P=None, q=None, omega=None):

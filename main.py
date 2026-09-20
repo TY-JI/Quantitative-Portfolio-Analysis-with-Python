@@ -37,7 +37,7 @@ def main():
     # Computing expected returns using black litterman framework 
     bl = BlackLitterman(
         covariance=ledoit_wolf_matrix,
-        pi = m.pi(market_caps, ledoit_wolf_matrix),
+        pi = m.equilibrium_returns(market_caps, ledoit_wolf_matrix),
         P = P,
         q = q
     )

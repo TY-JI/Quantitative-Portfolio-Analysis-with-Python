@@ -16,10 +16,6 @@ class MarketDataLoader:
             auto_adjust=True,
             progress=True,
         )
-
-# TODO -Calculate market capitalizations using a broader market universe 
-#       rather than only the securities selected for the portfolio.
-#      -allow retrival of historical market caps
  
     def market_caps(self):
         market_caps = []

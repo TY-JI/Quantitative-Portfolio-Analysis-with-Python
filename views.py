@@ -1,7 +1,5 @@
 import numpy as np
 
-# TODO clean up
-
 class View:
     def __init__(self, view_type, asset_1, value, asset_2=None):
         if view_type not in ('absolute','relative'):

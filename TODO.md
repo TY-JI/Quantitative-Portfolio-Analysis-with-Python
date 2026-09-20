@@ -8,3 +8,5 @@
 - [ ] Add transaction-cost modelling
 - [ ] Improve optimizer step-size selection
 - [ ] Implement MIQP-based concentrated portfolio construction using Black-Litterman expected returns and covariance estimates
+- [ ] consider adding CLI arguments risk free rate and market returns for calculating risk aversion
+- [ ] consider validation without repeated calls for .count() especially with long list of tickers

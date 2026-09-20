@@ -59,8 +59,6 @@ def parse_args():
         help='Measures program runtime.'
     )
 
-    # TODO consider adding CLI arguments risk free rate and market returns for calculating risk aversion 
-
     args = parser.parse_args()
     args.tickers = [ticker.upper() for ticker in args.tickers]
     validate_args(args)
@@ -78,8 +76,6 @@ def validate_args(args):
     validate_period(args.period)
 
 def check_duplicate_tickers(tickers):
-    # TODO consider validation without repeated calls for .count()
-    #      especially with long list of tickers
     if len(tickers) != len(set(tickers)):
         duplicates = [
             ticker for ticker in set(tickers)

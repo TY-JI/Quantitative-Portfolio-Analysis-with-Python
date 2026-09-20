@@ -1,6 +1,6 @@
 import numpy as np
 
-def pi(
+def equilibrium_returns(
         market_caps, 
         covariance, 
         market_return=0.08,
